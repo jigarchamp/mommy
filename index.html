@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Happy Mother's Day, Radha! 🌸</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --pink:          #FFB3C6;
+      --pink-dark:     #FF8FAB;
+      --lavender:      #EEE0FF;
+      --lavender-dark: #C8A8E9;
+      --sage:          #B7D7C0;
+      --peach:         #FFD4C2;
+      --peach-dark:    #FFAA8A;
+      --cream:         #FFF9F5;
+      --plum:          #5C3D5E;
+      --plum-light:    #8B6B8E;
+      --green-ok:      #6BCB77;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: linear-gradient(135deg, #FFE4EE 0%, #F0E6FF 30%, #FFE8D6 60%, #E8F5E8 100%);
+      background-size: 300% 300%;
+      animation: bgShift 12s ease infinite;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @keyframes bgShift {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* ── Corner decorations ── */
+    .deco {
+      position: fixed;
+      font-size: 1.8rem;
+      opacity: 0.3;
+      pointer-events: none;
+      user-select: none;
+      line-height: 1;
+    }
+    .deco-tl { top: 10px; left: 10px; }
+    .deco-tr { top: 10px; right: 10px; }
+    .deco-bl { bottom: 10px; left: 10px; }
+    .deco-br { bottom: 10px; right: 10px; }
+    .deco-ml { top: 50%; left: 10px; transform: translateY(-50%); }
+    .deco-mr { top: 50%; right: 10px; transform: translateY(-50%); }
+
+    /* ── Confetti canvas ── */
+    #confetti-canvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1000;
+    }
+
+    /* ── App shell ── */
+    .app {
+      width: 100%;
+      max-width: 420px;
+      height: 100vh;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 0 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── Screen system ── */
+    .screen {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 28px 0;
+      text-align: center;
+    }
+    .screen.active {
+      display: flex;
+      animation: screenIn 0.4s ease both;
+    }
+    @keyframes screenIn {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Card ── */
+    .card {
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(12px);
+      border-radius: 28px;
+      padding: 28px 20px 24px;
+      width: 100%;
+      box-shadow: 0 10px 40px rgba(92, 61, 94, 0.14);
+      border: 2px solid rgba(255, 179, 198, 0.45);
+    }
+
+    /* ── Typography ── */
+    h1 {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 900;
+      color: var(--plum);
+      font-size: clamp(2rem, 7.5vw, 3rem);
+      line-height: 1.2;
+      letter-spacing: -1px;
+      margin-bottom: 10px;
+    }
+    h2 {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      color: var(--plum);
+      font-size: clamp(1.25rem, 5vw, 1.7rem);
+      margin-bottom: 14px;
+      line-height: 1.3;
+      letter-spacing: -0.3px;
+    }
+    .subtitle {
+      color: var(--plum-light);
+      font-size: 0.95rem;
+      font-weight: 600;
+      line-height: 1.55;
+      margin-bottom: 18px;
+    }
+    .q-label {
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: var(--plum-light);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 6px;
+    }
+
+    /* ── Progress dots ── */
+    .progress {
+      display: flex;
+      gap: 9px;
+      justify-content: center;
+      margin-bottom: 14px;
+    }
+    .dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--lavender-dark);
+      transition: background 0.3s, transform 0.3s;
+    }
+    .dot.done    { background: var(--pink-dark); }
+    .dot.current { background: var(--plum); transform: scale(1.35); }
+
+    /* ── Buttons ── */
+    .btn-start {
+      background: linear-gradient(135deg, var(--pink-dark), var(--lavender-dark));
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 15px 44px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 800;
+      cursor: pointer;
+      margin-top: 22px;
+      box-shadow: 0 4px 18px rgba(255, 143, 171, 0.45);
+      transition: transform 0.1s, box-shadow 0.1s;
+    }
+    .btn-start:active { transform: scale(0.95); }
+
+    .btn-next {
+      background: linear-gradient(135deg, #6BCB77, #4caf50);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 14px 38px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 800;
+      cursor: pointer;
+      margin-top: 22px;
+      box-shadow: 0 4px 16px rgba(76, 175, 80, 0.4);
+      transition: transform 0.1s;
+      display: none;
+    }
+    .btn-next.show {
+      display: inline-block;
+      animation: popIn 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+    }
+    .btn-next:active { transform: scale(0.95); }
+
+    .btn-restart {
+      background: linear-gradient(135deg, var(--lavender-dark), var(--pink-dark));
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 12px 28px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.92rem;
+      font-weight: 800;
+      cursor: pointer;
+      margin-top: 16px;
+      box-shadow: 0 4px 14px rgba(200, 168, 233, 0.4);
+      transition: transform 0.1s;
+      display: block;
+      width: fit-content;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .btn-restart:active { transform: scale(0.95); }
+
+    /* ── Feedback text ── */
+    .feedback {
+      min-height: 44px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--plum);
+      margin: 10px 0 2px;
+      line-height: 1.4;
+      transition: opacity 0.2s;
+    }
+
+    /* ── Shared animations ── */
+    @keyframes popIn {
+      from { transform: scale(0) rotate(-6deg); opacity: 0; }
+      to   { transform: scale(1) rotate(0deg);  opacity: 1; }
+    }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      15%       { transform: translateX(-9px) rotate(-2deg); }
+      35%       { transform: translateX(9px)  rotate(2deg); }
+      55%       { transform: translateX(-6px); }
+      75%       { transform: translateX(6px); }
+      90%       { transform: translateX(-3px); }
+    }
+    @keyframes correctPop {
+      0%   { transform: scale(1); }
+      30%  { transform: scale(1.1); }
+      60%  { transform: scale(0.97); }
+      100% { transform: scale(1); }
+    }
+
+    .do-shake       { animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both; }
+    .do-correct-pop { animation: correctPop 0.55s ease both; }
+
+    /* ══════════════════════════════
+       Q1 — PHOTO GRID
+    ══════════════════════════════ */
+    .photo-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      width: 100%;
+      margin: 4px 0 8px;
+    }
+
+    .photo-tile {
+      border-radius: 18px;
+      overflow: hidden;
+      cursor: pointer;
+      position: relative;
+      aspect-ratio: 1;
+      background: var(--lavender);
+      border: 3px solid rgba(200, 168, 233, 0.5);
+      transition: border-color 0.2s;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.09);
+    }
+
+    .photo-tile img {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .photo-placeholder {
+      position: absolute;
+      inset: 0;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      background: var(--lavender);
+      color: var(--plum);
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
+    .photo-placeholder .ph-emoji { font-size: 2.4rem; }
+
+    .photo-label {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: linear-gradient(transparent, rgba(60, 30, 62, 0.75));
+      color: white;
+      font-size: 0.88rem;
+      font-weight: 800;
+      padding: 22px 8px 8px;
+      text-align: center;
+    }
+
+    .photo-tile.do-shake       { border-color: #FF6B6B; }
+    .photo-tile.do-correct-pop { border-color: var(--green-ok); }
+
+    /* ══════════════════════════════
+       Q2 — NUMBER PAD
+    ══════════════════════════════ */
+    .numpad {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      width: 100%;
+      margin: 6px 0 8px;
+    }
+
+    .num-tile {
+      background: linear-gradient(135deg, var(--peach), var(--pink));
+      border: none;
+      border-radius: 14px;
+      padding: 0;
+      height: 58px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 1.45rem;
+      font-weight: 900;
+      color: var(--plum);
+      cursor: pointer;
+      transition: transform 0.1s, box-shadow 0.1s;
+      box-shadow: 0 3px 10px rgba(255, 143, 171, 0.25);
+    }
+    .num-tile:active { transform: scale(0.9); }
+
+    /* 10 sits centered in column 2 by default */
+    #tile-10 { grid-column: 2; }
+
+    /* 11 – revealed after clicking 10 */
+    #tile-11 {
+      display: none;
+      background: linear-gradient(135deg, #FF6B6B, #FF8E53);
+      color: white;
+      box-shadow: 0 3px 16px rgba(255, 107, 107, 0.45);
+      grid-column: 3;
+    }
+    #tile-11.show {
+      display: block;
+      animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+    }
+
+    /* When 11 appears, 10 shifts to column 2 naturally — we move it to col 2 */
+    #tile-10.has-sibling { grid-column: 2; }
+
+    /* Hint glow on tile-1 to invite the first click */
+    #tile-1 { animation: numGlow 1.4s ease-in-out infinite; }
+    @keyframes numGlow {
+      0%, 100% { box-shadow: 0 3px 10px rgba(255, 143, 171, 0.25); }
+      50%       { box-shadow: 0 0 0 4px rgba(255, 107, 171, 0.55),
+                              0 0 22px rgba(255, 107, 171, 0.7); }
+    }
+
+    /* ══════════════════════════════
+       Q3 — SPORTS OPTIONS
+    ══════════════════════════════ */
+    .option-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      width: 100%;
+      margin: 4px 0 8px;
+    }
+
+    .option-tile {
+      background: white;
+      border: 2.5px solid var(--lavender-dark);
+      border-radius: 18px;
+      padding: 20px 10px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--plum);
+      cursor: pointer;
+      transition: transform 0.1s, background 0.2s;
+      line-height: 1.35;
+    }
+    .option-tile .opt-emoji { font-size: 1.9rem; display: block; margin-bottom: 6px; }
+    .option-tile:active { transform: scale(0.93); }
+    .option-tile.do-shake       { border-color: #FF6B6B; background: #FFF0F0; }
+    .option-tile.do-correct-pop { border-color: var(--green-ok); background: #F0FFF2; }
+
+    /* ══════════════════════════════
+       Q4 — BEVERAGE OPTIONS
+    ══════════════════════════════ */
+    .bev-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 11px;
+      width: 100%;
+      margin: 4px 0 8px;
+    }
+
+    .bev-tile {
+      background: white;
+      border: 2.5px solid var(--pink);
+      border-radius: 18px;
+      padding: 18px 9px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--plum);
+      cursor: pointer;
+      transition: transform 0.1s;
+      line-height: 1.35;
+    }
+    .bev-tile .bev-emoji { font-size: 1.9rem; display: block; margin-bottom: 6px; }
+    .bev-tile:active { transform: scale(0.93); }
+    .bev-tile.do-shake       { border-color: #FF6B6B; background: #FFF0F0;
+                               animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both; }
+    .bev-tile.do-correct-pop { border-color: var(--green-ok); background: #F0FFF2; }
+
+    /* ══════════════════════════════
+       CORRECT OVERLAY
+    ══════════════════════════════ */
+    #correct-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      align-items: center;
+      justify-content: center;
+      z-index: 500;
+      background: rgba(50, 20, 55, 0.6);
+      backdrop-filter: blur(10px);
+      padding: 24px;
+    }
+    #correct-overlay.show { display: flex; animation: screenIn 0.3s ease both; }
+
+    .correct-card {
+      background: white;
+      border-radius: 28px;
+      padding: 36px 28px 28px;
+      box-shadow: 0 24px 64px rgba(92, 61, 94, 0.3);
+      max-width: 360px;
+      width: 100%;
+      text-align: center;
+      border: 2px solid rgba(255, 179, 198, 0.5);
+    }
+
+    .correct-headline {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 900;
+      font-size: clamp(2.4rem, 12vw, 4rem);
+      color: var(--plum);
+      letter-spacing: -1.5px;
+      animation: correctBounce 0.65s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+      line-height: 1.1;
+    }
+    @keyframes correctBounce {
+      0%   { transform: scale(0) rotate(-10deg); opacity: 0; }
+      55%  { transform: scale(1.18) rotate(2deg); }
+      80%  { transform: scale(0.94) rotate(-1deg); }
+      100% { transform: scale(1) rotate(0); opacity: 1; }
+    }
+
+    .correct-sub {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--plum-light);
+      margin-top: 12px;
+      line-height: 1.55;
+      animation: screenIn 0.4s 0.3s ease both;
+    }
+
+    /* Volume knob (Q2 correct) */
+    .vol-wrap {
+      margin: 20px auto 4px;
+      animation: screenIn 0.5s 0.4s ease both;
+    }
+    .vol-knob {
+      width: 110px; height: 110px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 38% 35%, #555, #111);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.55), inset 0 2px 5px rgba(255,255,255,0.1);
+      position: relative;
+      margin: 0 auto;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .vol-knob::before {
+      /* tick marks ring */
+      content: '';
+      position: absolute;
+      inset: -8px;
+      border-radius: 50%;
+      background: conic-gradient(
+        var(--pink-dark) 0deg 270deg,
+        transparent 270deg 360deg
+      );
+      -webkit-mask: radial-gradient(transparent 46px, black 47px);
+      mask: radial-gradient(transparent 46px, black 47px);
+      opacity: 0.5;
+    }
+    .vol-indicator {
+      position: absolute;
+      width: 5px; height: 36px;
+      background: #FF3333;
+      border-radius: 3px;
+      top: 8px;
+      left: 50%;
+      transform-origin: 50% 100%;
+      transform: translateX(-50%) rotate(-140deg);
+      animation: knobCrank 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.5s forwards;
+    }
+    @keyframes knobCrank {
+      to { transform: translateX(-50%) rotate(155deg); }
+    }
+    .vol-num {
+      font-family: 'Pacifico', cursive;
+      font-size: 2rem;
+      color: #FF3333;
+      text-shadow: 0 0 12px rgba(255,51,51,0.9);
+      animation: volPulse 1.2s ease infinite alternate 1.5s both;
+      z-index: 1;
+    }
+    @keyframes volPulse {
+      from { text-shadow: 0 0 10px rgba(255,51,51,0.8); }
+      to   { text-shadow: 0 0 28px rgba(255,51,51,1), 0 0 56px rgba(255,51,51,0.5); }
+    }
+    .vol-caption {
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: var(--plum-light);
+      margin-top: 8px;
+      letter-spacing: 0.5px;
+    }
+
+    /* ══════════════════════════════
+       FINAL SCREEN
+    ══════════════════════════════ */
+    .float-layer {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+    .floater {
+      position: absolute;
+      animation: floatUp linear infinite;
+      opacity: 0;
+      user-select: none;
+    }
+    @keyframes floatUp {
+      0%   { transform: translateY(110vh) rotate(0deg);   opacity: 0; }
+      8%   { opacity: 1; }
+      92%  { opacity: 1; }
+      100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+    }
+
+    .final-heart {
+      font-size: 5rem;
+      display: block;
+      animation: heartbeat 1.2s ease infinite;
+    }
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      14%       { transform: scale(1.22); }
+      28%       { transform: scale(1); }
+      42%       { transform: scale(1.12); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Corner flowers -->
+  <span class="deco deco-tl">🌸</span>
+  <span class="deco deco-tr">🌺</span>
+  <span class="deco deco-bl">🌷</span>
+  <span class="deco deco-br">🌼</span>
+  <span class="deco deco-ml">💐</span>
+  <span class="deco deco-mr">🌹</span>
+
+  <canvas id="confetti-canvas"></canvas>
+
+  <!-- ══ CORRECT OVERLAY ══ -->
+  <div id="correct-overlay">
+    <div class="correct-card">
+      <div class="correct-headline" id="ov-headline"></div>
+      <div class="correct-sub"      id="ov-sub"></div>
+      <div id="ov-extra"></div>
+      <button class="btn-next show" id="ov-next-btn" onclick="overlayNext()">Next →</button>
+    </div>
+  </div>
+
+  <div class="app">
+
+    <!-- ══ INTRO ══ -->
+    <div id="screen-intro" class="screen active">
+      <div class="card">
+        <div style="font-size:3.6rem; margin-bottom:10px;">💐</div>
+        <h1>Happy Mother's Day, Radha!</h1>
+        <p class="subtitle" style="margin-top:10px;">
+          On this special day, we thought you'd love a<br>
+          <strong>multiple choice exam.</strong>
+        </p>
+        <p class="subtitle" style="font-size:0.85rem; margin-bottom:0;">
+          No pressure. Only a little judgment. 🌸
+        </p>
+        <button class="btn-start" onclick="showScreen('screen-q1')">Let's go! 🌸</button>
+      </div>
+    </div>
+
+    <!-- ══ Q1: FAVORITE CHILD ══ -->
+    <div id="screen-q1" class="screen">
+      <div class="progress">
+        <div class="dot current"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+      <div class="card">
+        <div class="q-label">Question 1 of 4</div>
+        <h2>Who is your favorite child?</h2>
+        <p class="subtitle">Choose carefully. We're watching.</p>
+
+        <div class="photo-grid">
+
+          <div class="photo-tile" id="tile-sophia" onclick="answerQ1('sophia')">
+            <img src="images/sophia.jpg" alt="Sophia"
+                 onerror="this.style.display='none'; document.getElementById('ph-sophia').style.display='flex'">
+            <div id="ph-sophia" class="photo-placeholder">
+              <span class="ph-emoji">🧒</span><span>Sophia</span>
+            </div>
+            <div class="photo-label">Sophia</div>
+          </div>
+
+          <div class="photo-tile" id="tile-aiden" onclick="answerQ1('aiden')">
+            <img src="images/aiden.jpg" alt="Aiden"
+                 onerror="this.style.display='none'; document.getElementById('ph-aiden').style.display='flex'">
+            <div id="ph-aiden" class="photo-placeholder">
+              <span class="ph-emoji">👦</span><span>Aiden</span>
+            </div>
+            <div class="photo-label">Aiden</div>
+          </div>
+
+          <div class="photo-tile" id="tile-alisha" onclick="answerQ1('alisha')">
+            <img src="images/alisha.jpg" alt="Alisha"
+                 onerror="this.style.display='none'; document.getElementById('ph-alisha').style.display='flex'">
+            <div id="ph-alisha" class="photo-placeholder">
+              <span class="ph-emoji">👧</span><span>Alisha</span>
+            </div>
+            <div class="photo-label">Alisha</div>
+          </div>
+
+          <div class="photo-tile" id="tile-daisy" onclick="answerQ1('daisy')">
+            <img src="images/daisy.jpg" alt="Daisy"
+                 onerror="this.style.display='none'; document.getElementById('ph-daisy').style.display='flex'">
+            <div id="ph-daisy" class="photo-placeholder">
+              <span class="ph-emoji">🐕</span><span>Daisy</span>
+            </div>
+            <div class="photo-label">Daisy 🐾</div>
+          </div>
+
+        </div>
+
+        <div class="feedback" id="fb-q1"></div>
+      </div>
+    </div>
+
+    <!-- ══ Q2: SCALE 1–10 ══ -->
+    <div id="screen-q2" class="screen">
+      <div class="progress">
+        <div class="dot done"></div>
+        <div class="dot current"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+      <div class="card">
+        <div class="q-label">Question 2 of 4</div>
+        <h2>On a scale of 1–10, how good of a mother are you?</h2>
+
+        <div class="numpad" id="numpad">
+          <button class="num-tile" id="tile-1" onclick="answerQ2(1)">1</button>
+          <button class="num-tile" onclick="answerQ2(2)">2</button>
+          <button class="num-tile" onclick="answerQ2(3)">3</button>
+          <button class="num-tile" onclick="answerQ2(4)">4</button>
+          <button class="num-tile" onclick="answerQ2(5)">5</button>
+          <button class="num-tile" onclick="answerQ2(6)">6</button>
+          <button class="num-tile" onclick="answerQ2(7)">7</button>
+          <button class="num-tile" onclick="answerQ2(8)">8</button>
+          <button class="num-tile" onclick="answerQ2(9)">9</button>
+          <button class="num-tile" id="tile-10" onclick="answerQ2(10)">10</button>
+          <button class="num-tile" id="tile-11" onclick="answerQ2(11)">11</button>
+        </div>
+
+        <div class="feedback" id="fb-q2"></div>
+      </div>
+    </div>
+
+    <!-- ══ Q3: SPORTS ══ -->
+    <div id="screen-q3" class="screen">
+      <div class="progress">
+        <div class="dot done"></div>
+        <div class="dot done"></div>
+        <div class="dot current"></div>
+        <div class="dot"></div>
+      </div>
+      <div class="card">
+        <div class="q-label">Question 3 of 4</div>
+        <h2>What's your best sport?</h2>
+        <p class="subtitle">Be honest. No one's watching.<br><em>(Sophia is definitely not watching.)</em></p>
+
+        <div class="option-grid">
+          <div class="option-tile" id="opt-tennis"     onclick="answerQ3('tennis')">
+            <span class="opt-emoji">🎾</span>Tennis
+          </div>
+          <div class="option-tile" id="opt-basketball" onclick="answerQ3('basketball')">
+            <span class="opt-emoji">🏀</span>Basketball
+          </div>
+          <div class="option-tile" id="opt-pickleball" onclick="answerQ3('pickleball')">
+            <span class="opt-emoji">🏓</span>Pickleball
+          </div>
+          <div class="option-tile" id="opt-napping"    onclick="answerQ3('napping')">
+            <span class="opt-emoji">😴</span>Competitive Napping
+          </div>
+        </div>
+
+        <div class="feedback" id="fb-q3"></div>
+      </div>
+    </div>
+
+    <!-- ══ Q4: FAVORITE BEVERAGE ══ -->
+    <div id="screen-q4" class="screen">
+      <div class="progress">
+        <div class="dot done"></div>
+        <div class="dot done"></div>
+        <div class="dot done"></div>
+        <div class="dot current"></div>
+      </div>
+      <div class="card">
+        <div class="q-label">Question 4 of 4</div>
+        <h2>What is your favorite beverage?</h2>
+        <p class="subtitle">Choose wisely. This one counts.</p>
+
+        <div class="bev-grid">
+
+          <div class="photo-tile" id="bev-latte" onclick="answerQ4('latte')">
+            <img src="images/latte.jpeg" alt="Latte"
+                 onerror="this.style.display='none'; document.getElementById('ph-bev-latte').style.display='flex'">
+            <div id="ph-bev-latte" class="photo-placeholder">
+              <span class="ph-emoji">☕</span><span>Latte</span>
+            </div>
+            <div class="photo-label">Latte ☕</div>
+          </div>
+
+          <div class="photo-tile" id="bev-oldfashioned" onclick="answerQ4('oldfashioned')">
+            <img src="images/oldfashioned.jpg" alt="Old Fashioned"
+                 onerror="this.style.display='none'; document.getElementById('ph-bev-of').style.display='flex'">
+            <div id="ph-bev-of" class="photo-placeholder">
+              <span class="ph-emoji">🥃</span><span>Old Fashioned</span>
+            </div>
+            <div class="photo-label">Old Fashioned 🥃</div>
+          </div>
+
+          <div class="photo-tile" id="bev-pinot" onclick="answerQ4('pinot')">
+            <img src="images/wine.jpg" alt="Patricia Green Pinot Noir"
+                 onerror="this.style.display='none'; document.getElementById('ph-bev-pinot').style.display='flex'">
+            <div id="ph-bev-pinot" class="photo-placeholder">
+              <span class="ph-emoji">🍷</span><span>Pinot Noir</span>
+            </div>
+            <div class="photo-label">Patricia Green 🍷</div>
+          </div>
+
+          <div class="photo-tile" id="bev-ale" onclick="answerQ4('ale')">
+            <img src="images/beer.jpeg" alt="Fieldwork Belgian Ale"
+                 onerror="this.style.display='none'; document.getElementById('ph-bev-ale').style.display='flex'">
+            <div id="ph-bev-ale" class="photo-placeholder">
+              <span class="ph-emoji">🍺</span><span>Belgian Ale</span>
+            </div>
+            <div class="photo-label">Fieldwork 🍺</div>
+          </div>
+
+        </div>
+
+        <div class="feedback" id="fb-q4"></div>
+      </div>
+    </div>
+
+    <!-- ══ FINAL ══ -->
+    <div id="screen-final" class="screen">
+      <div class="float-layer" id="float-layer"></div>
+      <div class="card" style="position:relative; z-index:2;">
+        <span class="final-heart">💖</span>
+        <h1 style="margin-top:14px;">Happy Mother's<br>Day, Radha!</h1>
+        <p class="subtitle" style="margin-top:18px; font-size:1rem;">
+          You aced it. Obviously. 🌸<br><br>
+          Best tennis player in the family<br>
+          <em>(Sophia's words — we just wrote them down),</em><br>
+          an Old Fashioned connoisseur,<br>
+          and Daisy's absolute favorite human.
+        </p>
+        <p class="subtitle" style="margin-top:14px; font-size:0.88rem; color:var(--plum-light);">
+          With so much love,<br>
+          Sophia, Aiden, Alisha &amp; Daisy 🐾
+        </p>
+        <button class="btn-restart" onclick="resetQuiz()">Start Over</button>
+      </div>
+    </div>
+
+  </div><!-- /.app -->
+
+<script>
+// ─────────────────────────────────────────────
+//  SCREEN NAVIGATION
+// ─────────────────────────────────────────────
+let overlayNextTarget = '';
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
+  if (id === 'screen-final') launchFinalScreen();
+}
+
+function showCorrectOverlay(headline, sub, extraHTML, nextScreen) {
+  overlayNextTarget = nextScreen;
+  document.getElementById('ov-headline').innerHTML = headline;
+  document.getElementById('ov-sub').innerHTML      = sub;
+  document.getElementById('ov-extra').innerHTML    = extraHTML || '';
+
+  const btn = document.getElementById('ov-next-btn');
+  btn.textContent = nextScreen === 'screen-final' ? 'See your results! 🌸' : 'Next →';
+
+  document.getElementById('correct-overlay').classList.add('show');
+}
+
+function overlayNext() {
+  document.getElementById('correct-overlay').classList.remove('show');
+  showScreen(overlayNextTarget);
+}
+
+// ─────────────────────────────────────────────
+//  HELPERS
+// ─────────────────────────────────────────────
+function triggerShake(el) {
+  el.classList.remove('do-shake', 'do-correct-pop');
+  void el.offsetWidth; // reflow
+  el.classList.add('do-shake');
+  el.addEventListener('animationend', () => el.classList.remove('do-shake'), { once: true });
+}
+
+function triggerCorrectPop(el) {
+  el.classList.remove('do-shake', 'do-correct-pop');
+  void el.offsetWidth;
+  el.classList.add('do-correct-pop');
+}
+
+// ─────────────────────────────────────────────
+//  Q1 — FAVORITE CHILD
+// ─────────────────────────────────────────────
+const q1Wrong = {
+  sophia: "Sophia?! She won't even play tennis with you! 🎾",
+  aiden:  "Sweet Aiden — but he's too busy dunking! 🏀",
+  alisha: "Alisha's good, but she's no Sabrina. 🏀",
+};
+
+function answerQ1(choice) {
+  if (choice === 'daisy') {
+    triggerCorrectPop(document.getElementById('tile-daisy'));
+    fireConfetti();
+    setTimeout(() => {
+      showCorrectOverlay(
+        'CORRECT! 🐾',
+        'Daisy is the goodest girl!',
+        '',
+        'screen-q2'
+      );
+    }, 350);
+  } else {
+    const tile = document.getElementById('tile-' + choice);
+    triggerShake(tile);
+    document.getElementById('fb-q1').textContent = q1Wrong[choice];
+  }
+}
+
+// ─────────────────────────────────────────────
+//  Q2 — SCALE 1–10 (and 11)
+// ─────────────────────────────────────────────
+const q2Msgs = {
+  1:  "C'mon, you KNOW you're better than that 🙄",
+  2:  "Really? REALLY?? Higher.",
+  3:  "That's just sad, Radha. You know better.",
+  4:  "Getting warm… keep going ↑",
+  5:  "Halfway there! But you're way more than half good.",
+  6:  "Getting warmer 🌡️ Keep climbing.",
+  7:  "You're SO close! Don't stop now.",
+  8:  "Almost… almost…",
+  9:  "ON FIRE! 🔥🔥🔥 But is that really the highest?",
+};
+
+let tile11Revealed = false;
+
+function answerQ2(num) {
+  // Kill the hint glow on first interaction
+  const t1 = document.getElementById('tile-1');
+  if (t1) t1.style.animation = 'none';
+  if (num === 11) {
+    fireConfetti(); fireConfetti();
+    const volHTML = `
+      <div class="vol-wrap">
+        <div class="vol-knob">
+          <div class="vol-indicator"></div>
+          <span class="vol-num">11</span>
+        </div>
+        <div class="vol-caption">"But this one goes to eleven." 🎸</div>
+      </div>`;
+    setTimeout(() => {
+      showCorrectOverlay('CORRECT! 🎸🔊', '', volHTML, 'screen-q3');
+    }, 350);
+    return;
+  }
+
+  if (num === 10) {
+    document.getElementById('fb-q2').textContent = "Oh, you THINK that's the highest? 👀";
+    if (!tile11Revealed) {
+      tile11Revealed = true;
+      // Shift 10 to column 2, reveal 11 in column 3
+      const t10 = document.getElementById('tile-10');
+      t10.style.gridColumn = '2';
+      document.getElementById('tile-11').classList.add('show');
+    }
+    return;
+  }
+
+  document.getElementById('fb-q2').textContent = q2Msgs[num];
+}
+
+// ─────────────────────────────────────────────
+//  Q3 — SPORTS
+// ─────────────────────────────────────────────
+const q3Wrong = {
+  basketball: "That's Aiden and Alisha's lane! 🏀",
+  pickleball: "Basically tennis with training wheels. So close! 🏓",
+  napping:    "…As an athletic endeavor, we respect it. But no. 😴",
+};
+
+function answerQ3(choice) {
+  if (choice === 'tennis') {
+    triggerCorrectPop(document.getElementById('opt-tennis'));
+    fireConfetti();
+    setTimeout(() => {
+      showCorrectOverlay(
+        'CORRECT! 🎾',
+        "Don't worry, we won't tell Sophia. 🤫",
+        '',
+        'screen-q4'
+      );
+    }, 350);
+  } else {
+    const tile = document.getElementById('opt-' + choice);
+    triggerShake(tile);
+    document.getElementById('fb-q3').textContent = q3Wrong[choice];
+  }
+}
+
+// ─────────────────────────────────────────────
+//  Q4 — FAVORITE BEVERAGE
+// ─────────────────────────────────────────────
+const q4Wrong = {
+  latte: "A classic morning move! But is this really your go-to? ☕",
+  pinot: "Excellent taste, Radha. But something stronger calls… 🍷",
+  ale:   "A true connoisseur! But we know your heart belongs elsewhere. 🍺",
+};
+
+function answerQ4(choice) {
+  if (choice === 'oldfashioned') {
+    triggerCorrectPop(document.getElementById('bev-oldfashioned'));
+    fireConfetti(); fireConfetti();
+    setTimeout(() => {
+      showCorrectOverlay(
+        'CORRECT! 🥃',
+        "Jigar's Old Fashioned is a class act,<br>just like Mommy. 🌹",
+        '',
+        'screen-final'
+      );
+    }, 350);
+  } else {
+    const idMap = { latte: 'bev-latte', pinot: 'bev-pinot', ale: 'bev-ale' };
+    const tile = document.getElementById(idMap[choice]);
+    triggerShake(tile);
+    document.getElementById('fb-q4').textContent = q4Wrong[choice];
+  }
+}
+
+// ─────────────────────────────────────────────
+//  RESTART
+// ─────────────────────────────────────────────
+function resetQuiz() {
+  // Reset Q2 state
+  tile11Revealed = false;
+  const t10 = document.getElementById('tile-10');
+  t10.style.gridColumn = '';
+  document.getElementById('tile-11').classList.remove('show');
+
+  // Restore tile-1 glow
+  const t1 = document.getElementById('tile-1');
+  t1.style.animation = '';
+
+  // Clear all feedback text
+  ['fb-q1','fb-q2','fb-q3','fb-q4'].forEach(id => {
+    document.getElementById(id).textContent = '';
+  });
+
+  // Remove lingering animation classes
+  const animatedIds = [
+    'tile-sophia','tile-aiden','tile-alisha','tile-daisy',
+    'opt-tennis','opt-basketball','opt-pickleball','opt-napping',
+    'bev-latte','bev-oldfashioned','bev-pinot','bev-ale',
+  ];
+  animatedIds.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.classList.remove('do-shake','do-correct-pop');
+  });
+
+  showScreen('screen-intro');
+}
+
+// ─────────────────────────────────────────────
+//  CONFETTI
+// ─────────────────────────────────────────────
+const canvas = document.getElementById('confetti-canvas');
+const ctx    = canvas.getContext('2d');
+let   particles = [];
+let   rafId     = null;
+
+(function resizeCanvas() {
+  canvas.width  = window.innerWidth;
+  canvas.height = window.innerHeight;
+  window.addEventListener('resize', () => {
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+  });
+})();
+
+const COLORS = ['#FFB3C6','#FF8FAB','#EEE0FF','#C8A8E9',
+                '#B7D7C0','#FFD4C2','#FFAA8A','#FFD700',
+                '#FF6B6B','#6BCB77','#87CEEB'];
+
+function fireConfetti() {
+  const cx = window.innerWidth  / 2;
+  const cy = window.innerHeight / 2;
+  for (let i = 0; i < 110; i++) {
+    const angle = Math.random() * Math.PI * 2;
+    const speed = Math.random() * 13 + 3;
+    particles.push({
+      x: cx, y: cy,
+      vx: Math.cos(angle) * speed,
+      vy: Math.sin(angle) * speed - 6,
+      size:          Math.random() * 11 + 4,
+      color:         COLORS[Math.floor(Math.random() * COLORS.length)],
+      rot:           Math.random() * 360,
+      rotSpeed:      (Math.random() - 0.5) * 14,
+      gravity:       0.38,
+      opacity:       1,
+      isCircle:      Math.random() > 0.55,
+    });
+  }
+  if (!rafId) animateConfetti();
+}
+
+function animateConfetti() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particles = particles.filter(p => p.opacity > 0.01);
+
+  for (const p of particles) {
+    p.x  += p.vx;
+    p.y  += p.vy;
+    p.vy += p.gravity;
+    p.vx *= 0.992;
+    p.rot += p.rotSpeed;
+    if (p.y > canvas.height * 0.65) p.opacity -= 0.025;
+
+    ctx.save();
+    ctx.translate(p.x, p.y);
+    ctx.rotate(p.rot * Math.PI / 180);
+    ctx.globalAlpha = Math.max(0, p.opacity);
+    ctx.fillStyle   = p.color;
+    if (p.isCircle) {
+      ctx.beginPath();
+      ctx.arc(0, 0, p.size / 2, 0, Math.PI * 2);
+      ctx.fill();
+    } else {
+      ctx.fillRect(-p.size / 2, -p.size / 4, p.size, p.size / 2);
+    }
+    ctx.restore();
+  }
+
+  if (particles.length > 0) {
+    rafId = requestAnimationFrame(animateConfetti);
+  } else {
+    rafId = null;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+}
+
+// ─────────────────────────────────────────────
+//  FINAL SCREEN — floating flowers
+// ─────────────────────────────────────────────
+function launchFinalScreen() {
+  const layer   = document.getElementById('float-layer');
+  layer.innerHTML = '';
+  const symbols = ['🌸','🌺','🌷','🌼','💐','🌹','💖','✨','🦋','🌿'];
+
+  for (let i = 0; i < 22; i++) {
+    const el = document.createElement('span');
+    el.className   = 'floater';
+    el.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+    el.style.left              = Math.random() * 100 + 'vw';
+    el.style.fontSize          = (Math.random() * 1.4 + 0.7) + 'rem';
+    el.style.animationDuration = (Math.random() * 5 + 5)     + 's';
+    el.style.animationDelay    = (Math.random() * 6)         + 's';
+    layer.appendChild(el);
+  }
+
+  setTimeout(fireConfetti, 400);
+  setTimeout(fireConfetti, 900);
+  setTimeout(fireConfetti, 1500);
+}
+</script>
+</body>
+</html>
